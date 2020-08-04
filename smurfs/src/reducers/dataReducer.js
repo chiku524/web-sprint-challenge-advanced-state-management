@@ -36,6 +36,11 @@ export const dataReducer = (state = initialDataState, action) => {
                 ...state, 
                 isFetchingData: false
             }
+        case POST_SMURF_SUCCESS: 
+            return {
+                ...state, 
+                isFetchingData: false
+            }
         case ADD_SMURF_NAME:
             return {
                 ...state,
