@@ -4,9 +4,11 @@ const initialDataState = {
     data: [],
     isFetchingData: false,
     error: "",
-    name: '',
-    age: null, 
-    height: null
+    formValues: {
+        name: '',
+        age: null, 
+        height: null
+    }
 }
 
 export const dataReducer = (state = initialDataState, action) => {
@@ -37,7 +39,7 @@ export const dataReducer = (state = initialDataState, action) => {
         case ADD_SMURF_NAME:
             return {
                 ...state,
-                name: action.payload
+                formValues: {name: action.payload}
             }
         case ADD_SMURF_AGE:
             return {

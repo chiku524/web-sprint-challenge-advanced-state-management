@@ -20,28 +20,26 @@ export const getData = () => dispatch => {
     })
 } 
 
-export const postSmurf = (smurf) => {
-    return dispatch => {
-        dispatch({ type: POST_SMURF });
-        axios
-            .post('http://localhost:3333/smurfs', smurf)
-            .then(res => {
-                dispatch({ type: POST_SMURF_SUCCESS, payload: res.data });
-            })
-            .catch(err => console.log("error"))
-    }
+export const postSmurf = (formValues) =>  (dispatch) => {
+    dispatch({ type: POST_SMURF });
+    axios.post('http://localhost:3333/smurfs', formValues)
+        .then(res => {
+            dispatch({ type: POST_SMURF_SUCCESS, payload: res.data });
+        })
+        .catch(err => console.log(err.message))
 }
 
-export const addSmurfName = (e) => {
-    e.preventDefault();
+export const addSmurfName = (name) => {
+    console.log(name)
     return {
         type: ADD_SMURF_NAME,
-        payload: e.target.value
+        payload: name
     }
 }
 
 export const addSmurfAge = (e) => {
     e.preventDefault();
+    console.log(e.target.value)
     return {
         type: ADD_SMURF_AGE,
         payload: e.target.value

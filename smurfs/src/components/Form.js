@@ -1,30 +1,44 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {addSmurfName, addSmurfAge, addSmurfHeight, postSmurf} from '../actions/index';
+import React,{useState} from 'react'
+import { connect } from 'react-redux'
+import {postSmurf} from '../actions/index'
 
+const SmurfForm = (props) => {
 
-const Form = (values, addSmurfName, addSmurfAge, addSmurfHeight, postSmurf) => {
-    const onSubmit = e => {
-        e.preventDefault();
-        postSmurf(values);
+    const [smurf, setSmurf] =useState({
+        name:'',
+        age:'',
+        height:''
+    })
+
+    const smurfHandler = e => {
+        setSmurf({
+            ...smurf,
+            [e.target.name]: e.target.value
+        })
     }
 
-    return (
-        <form className='form'>
-            <h4>Add your smurf here!</h4>
-            <input type='text' name='name' value={values.name} onChange={addSmurfName} placeholder='Enter name' />
-            <input type='text' name='age' value={values.age} onChange={addSmurfAge} placeholder='Enter age' />
-            <input type='text' name='height' value={values.height} onChange={addSmurfHeight} palceholder='Enter height' />
-            <button onClick={onSubmit}>Submit</button>
-        </form>
+    const submitSmurf =e => {
+        e.preventDefault()
+        props.postSmurf(smurf)
+    }
+
+    return(
+        <>
+            <h3>Add a new smurf!</h3>
+            <input name='name' value={props.name} placeholder='Enter name' onChange={smurfHandler}/>
+            <input name='age' value={props.age} placeholder='Enter age' onChange={smurfHandler}/>
+            <input name='height' value={props.height} placeholder='Enter height' onChange={smurfHandler}/>
+            <button onClick={submitSmurf}>Submit</button>
+        </>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        values: state.formValues,
-        disabled: state.disabled
+const mapStateToProps = (state) => {
+    return{
+        smurfs: state.smurfs,
+        isPosting: state.isPosting,
+        error: state.error
     }
 }
 
-export default connect(mapStateToProps, {addSmurfName, addSmurfAge, addSmurfHeight, postSmurf})(Form);
+export default connect(mapStateToProps,{postSmurf})(SmurfForm)
